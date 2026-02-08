@@ -93,8 +93,10 @@ your-repo/
 │       │   └── feature_name.md
 │       ├── sessions/            # Work session summaries
 │       │   └── YYYY-MM-DD_*.md
-│       └── cloud/               # Cloud infrastructure analyses
-│           └── platform_*.md
+│       ├── cloud/               # Cloud infrastructure analyses
+│       │   └── platform_*.md
+│       └── test-cases/          # Test case definitions
+│           └── feature_*.md
 └── OPENCODE.md                  # Project-specific instructions
 ```
 
@@ -280,10 +282,6 @@ your-repo/
 - **Input**: Plan path
 - **Output**: Completed implementation
 
-## Session Management
-
-The framework supports saving and resuming work through persistent documentation:
-
 ### `/5_save_progress`
 - **Purpose**: Save work progress and context
 - **Input**: Current work state
@@ -295,6 +293,23 @@ The framework supports saving and resuming work through persistent documentation
 - **Input**: Session summary path or auto-discover
 - **Output**: Restored context and continuation
 - **Reads**: Session, plan, and research documents
+
+### `/7_research_cloud`
+- **Purpose**: Analyze cloud infrastructure (READ-ONLY)
+- **Input**: Cloud platform and focus area
+- **Output**: Infrastructure analysis document
+- **Creates**: `thoughts/shared/cloud/` documents
+
+### `/8_define_test_cases`
+- **Purpose**: Design acceptance test cases using DSL approach
+- **Input**: Feature/functionality to test
+- **Output**: Test case definitions in comments + required DSL functions
+- **Approach**: Comment-first, follows existing test patterns
+- **Agent Used**: codebase-pattern-finder (automatic)
+
+## Session Management
+
+The framework supports saving and resuming work through persistent documentation:
 
 ### Saving Progress (`/5_save_progress`)
 
@@ -342,19 +357,6 @@ Session summaries include:
 - File changes and test status
 
 This enables seamless context switching between features or across days/weeks.
-
-### `/7_research_cloud`
-- **Purpose**: Analyze cloud infrastructure (READ-ONLY)
-- **Input**: Cloud platform and focus area
-- **Output**: Infrastructure analysis document
-- **Creates**: `thoughts/shared/cloud/` documents
-
-### `/8_define_test_cases`
-- **Purpose**: Design acceptance test cases using DSL approach
-- **Input**: Feature/functionality to test
-- **Output**: Test case definitions in comments + required DSL functions
-- **Approach**: Comment-first, follows existing test patterns
-- **Agent Used**: codebase-pattern-finder (automatic)
 
 ## Agent Reference
 

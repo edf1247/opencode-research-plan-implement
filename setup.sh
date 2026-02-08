@@ -77,6 +77,7 @@ mkdir -p "$TARGET_DIR/thoughts/shared/research"
 mkdir -p "$TARGET_DIR/thoughts/shared/plans"
 mkdir -p "$TARGET_DIR/thoughts/shared/sessions"
 mkdir -p "$TARGET_DIR/thoughts/shared/cloud"
+mkdir -p "$TARGET_DIR/thoughts/shared/test-cases"
 
 echo "📝 Copying framework files..."
 
@@ -116,21 +117,6 @@ for agent_file in .opencode/agents/*.md; do
     fi
 done
 
-# Copy config file if it doesn't exist or ask to update
-if [ -f "$TARGET_DIR/opencode.json" ]; then
-    echo ""
-    read -p "opencode.json already exists. Update it? (y/N): " UPDATE_CONFIG
-    if [ "$UPDATE_CONFIG" = "y" ] || [ "$UPDATE_CONFIG" = "Y" ]; then
-        cp opencode.json "$TARGET_DIR/"
-        echo "✅ Updated opencode.json"
-    else
-        echo "ℹ️  Kept existing opencode.json"
-    fi
-else
-    cp opencode.json "$TARGET_DIR/"
-    echo "✅ Installed opencode.json"
-fi
-
 # Copy playbook if it doesn't exist or ask to update
 if [ -f "$TARGET_DIR/PLAYBOOK.md" ]; then
     echo ""
@@ -150,7 +136,7 @@ fi
 if [ -f "$TARGET_DIR/OPENCODE.md" ]; then
     echo ""
     echo "📝 OPENCODE.md Configuration"
-    echo "=========================="
+    echo "==========================="
     echo ""
     echo "OPENCODE.md already exists in the target repository."
     read -p "Would you like to append a section about the Research-Plan-Implement framework commands? (y/N): " APPEND_OPENCODE
@@ -168,12 +154,13 @@ if [ -f "$TARGET_DIR/OPENCODE.md" ]; then
         echo "5. \`/5_save_progress\` - Save work session state" >> "$TARGET_DIR/OPENCODE.md"
         echo "6. \`/6_resume_work\` - Resume from saved session" >> "$TARGET_DIR/OPENCODE.md"
         echo "7. \`/7_research_cloud\` - Analyze cloud infrastructure (READ-ONLY)" >> "$TARGET_DIR/OPENCODE.md"
-        echo "8. \`/8_define_test_cases\` - Design acceptance test cases" >> "$TARGET_DIR/OPENCODE.md"
+        echo "8. \`/8_define_test_cases\` - Design acceptance test cases using DSL approach" >> "$TARGET_DIR/OPENCODE.md"
         echo "" >> "$TARGET_DIR/OPENCODE.md"
         echo "Research findings are saved in \`thoughts/shared/research/\`" >> "$TARGET_DIR/OPENCODE.md"
         echo "Implementation plans are saved in \`thoughts/shared/plans/\`" >> "$TARGET_DIR/OPENCODE.md"
         echo "Session summaries are saved in \`thoughts/shared/sessions/\`" >> "$TARGET_DIR/OPENCODE.md"
         echo "Cloud analyses are saved in \`thoughts/shared/cloud/\`" >> "$TARGET_DIR/OPENCODE.md"
+        echo "Test cases are saved in \`thoughts/shared/test-cases/\`" >> "$TARGET_DIR/OPENCODE.md"
         echo "✅ Appended framework section to OPENCODE.md"
     else
         echo "ℹ️  Skipping OPENCODE.md modification"
@@ -246,42 +233,113 @@ EOF
 cat > "$TARGET_DIR/thoughts/shared/sessions/TEMPLATE.md" << 'EOF'
 ---
 date: YYYY-MM-DD HH:MM:SS
-session_type: progress_checkpoint
-topic: "[Brief description of work]"
-tags: [session, progress, checkpoint]
+author: OpenCode User
+task: "Session Task"
+status: in-progress
+tags: [session, progress]
 ---
 
-# Session Summary: [Brief description of work]
+# Work Session: [Task Name]
 
-## Work Completed
-[What was accomplished in this session]
+## Session Summary
+[Brief overview of what was worked on]
 
-## Current State
-[Description of where things stand]
+## Progress Made
+- [Completed item 1]
+- [Completed item 2]
 
-## Files Modified
-- `path/to/file.js` - [Brief description of changes]
+## Current Implementation Status
+[Description of current state]
 
-## Plan Progress
-[Link to plan and current phase]
+## Git Changes
+[Summary of uncommitted changes]
 
 ## Blockers
-[Any issues preventing progress]
+- [Blocker 1]: [Description]
 
 ## Next Steps
-[What to do when resuming work]
+1. [Action 1]
+2. [Action 2]
 
 ## Commands to Resume
+```bash
+# Recommended commands to continue work
+/6_resume_work
 ```
-/command_to_resume
-> specific_parameters
-```
+EOF
+
+cat > "$TARGET_DIR/thoughts/shared/test-cases/TEMPLATE.md" << 'EOF'
+---
+date: YYYY-MM-DD HH:MM:SS
+author: OpenCode
+feature: "Feature Name"
+---
+# Test Cases: [Feature Name]
+
+## Overview
+[Brief description of what's being tested and why]
+
+## Test Approach
+[Description of testing strategy and patterns to follow]
+
+## Existing DSL Functions
+
+### Setup Functions
+- `functionName()` - [Description of what it does]
+
+### Action Functions
+- `functionName()` - [Description of what it does]
+
+### Assertion Functions
+- `functionName()` - [Description of what it does]
+
+## Required New DSL Functions
+[List any DSL functions that need to be created]
+
+## Test Cases
+
+### Happy Path
+
+#### [Descriptive Test Name]
+//
+// [Setup conditions]
+// [More setup if needed]
+//
+// [Action that triggers the behavior]
+//
+// [Expected outcome]
+// [Additional expectations]
+
+### Edge Cases
+
+#### [Descriptive Test Name]
+//
+// [Setup conditions]
+//
+// [Action that triggers the behavior]
+//
+// [Expected outcome]
+
+### Error Conditions
+
+#### [Descriptive Test Name]
+//
+// [Setup conditions]
+//
+// [Action that triggers the behavior]
+//
+// [Expected outcome]
+
+## Implementation Notes
+[Guidance for implementing these tests]
+[File locations]
+[Any special considerations]
 EOF
 
 echo ""
 if [ "$UPDATE_MODE" = "true" ]; then
     echo "🎉 Framework Updated Successfully!"
-    echo "===================================="
+    echo "==================================="
     echo ""
     echo "Framework updated in: $TARGET_DIR"
     echo ""

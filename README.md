@@ -33,7 +33,8 @@ cp -r thoughts /path/to/your/repo/
 │       ├── research/
 │       ├── plans/
 │       ├── sessions/
-│       └── cloud/
+│       ├── cloud/
+│       └── test-cases/
 └── README.md                    # This file
 ```
 

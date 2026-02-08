@@ -1,0 +1,78 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "codebase-locator": {
+      "mode": "subagent",
+      "tools": {
+        "read": false,
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "codebase-analyzer": {
+      "mode": "subagent",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "codebase-pattern-finder": {
+      "mode": "subagent",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    }
+  },
+  "command": {
+    "1_research_codebase": {
+      "description": "Deep dive into the codebase using parallel AI agents",
+      "agent": "general"
+    },
+    "2_create_plan": {
+      "description": "Create detailed, phased implementation plans",
+      "agent": "general"
+    },
+    "3_validate_plan": {
+      "description": "Verify implementation matches the plan's success criteria",
+      "agent": "general"
+    },
+    "4_implement_plan": {
+      "description": "Execute a plan systematically, phase by phase",
+      "agent": "build"
+    },
+    "5_save_progress": {
+      "description": "Save current work session state for continuity",
+      "agent": "general"
+    },
+    "6_resume_work": {
+      "description": "Resume from a previously saved session",
+      "agent": "general"
+    },
+    "7_research_cloud": {
+      "description": "Analyze cloud infrastructure using READ-ONLY CLI operations",
+      "agent": "explore",
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "aws *": "allow",
+          "az *": "allow",
+          "gcloud *": "allow",
+          "kubectl *": "allow"
+        }
+      }
+    },
+    "8_define_test_cases": {
+      "description": "Design acceptance test cases using DSL approach with comment-first structure",
+      "agent": "general"
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask",
+    "webfetch": "allow"
+  }
+}
